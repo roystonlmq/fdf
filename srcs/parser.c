@@ -6,9 +6,28 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/09 21:38:43 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/10 20:35:23 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "fdf.h"
+
+
+static int	ft_get_height(char *file)
+{
+	int		fd;
+	char	*line;
+	int		height;
+
+	height = 0;
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		exception(1, "Failed to open file");
+	while (get_next_line(fd) > 0)
+		height++;
+	close(fd);
+	return (height);
+}
 
 void	parse_df(t_df *df, char *file)
 {

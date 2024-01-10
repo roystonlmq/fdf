@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/09 21:36:54 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/10 21:06:42 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,18 @@ void	exception(int errnum, const char *msg);
 init.c
 */
 t_prog	*init_prog(void);
+t_df	*init_df(void);
+
+/*
+next_line.c
+*/
+int	ft_next_line(int fd, char **line);
+
+/*
+parser.c
+*/
+void	parse_df(t_df *df, char *file);
+
+
 
 #endif
