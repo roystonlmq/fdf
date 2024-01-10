@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/10 21:22:36 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/10 21:33:05 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_df
 	int			height;
 	int			z_max;
 	int			z_min;
-	int			**map;
+	int			***map;
 }	t_df;
 
 typedef struct	s_cam
