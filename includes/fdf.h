@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/10 21:06:42 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/10 21:22:36 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,14 @@ t_df	*init_df(void);
 next_line.c
 */
 int	ft_next_line(int fd, char **line);
+static int	ft_splitlen(char **split);
 
 /*
 parser.c
 */
 void	parse_df(t_df *df, char *file);
+static int	ft_get_width(char *file);
+static int	ft_get_height(char *file);
 
 
 
