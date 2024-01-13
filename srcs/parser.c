@@ -6,14 +6,13 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/10 21:24:03 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/13 11:29:03 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-
-static int	ft_get_height(char *file)
+static int	get_height(char *file)
 {
 	int		fd;
 	char	*line;
@@ -27,13 +26,13 @@ static int	ft_get_height(char *file)
 	{
 		height++;
 		free(line);
-	}	
+	}
 	if (close(fd) < 0)
 		exception(1, "Failed to close file");
 	return (height);
 }
 
-static int	ft_get_width(char *file)
+static int	get_width(char *file)
 {
 	int		fd;
 	char	*line;
@@ -55,19 +54,42 @@ static int	ft_get_width(char *file)
 	return (width);
 }
 
+static int	**malloc_map(t_df *df)
+{
+	int		**map;
+	int		i;
+
+	map = (int **)malloc(sizeof(int *) * df->height);
+	i = -1;
+	while (i++ < df->height)
+		map[i] = (int *)malloc(sizeof(int) * df->width);
+	return (map);
+}
+
 void	parse_df(t_df *df, char *file)
 {
 	int		fd;
 	char	*line;
 	char	**split;
 	int		i;
+	int		j;
 
-	i = 0;
-	fd = open(file, O_RDONLY);
+	fd = open(file, O_RDONLY, 0777);
 	if (fd < 0)
 		exception(1, "Failed to open file");
-	df->height = ft_get_height(file);
-	df->width = ft_get_width(file);
-	
+	df->height = get_height(file);
+	df->width = get_width(file);
+	df->map = malloc_map(df);
+	i = -1;
+	while (ft_next_line(fd, &line) > 0)
+	{
+		split = ft_split(line, ' ');
+		j = -1;
+		while (j++ < df->width)
+			df->map[i][j] = ft_atoi(split[j]);
+		i++;
+		free(line);
+		ft_free_strarr(split);
+	}
 	close(fd);
 }
