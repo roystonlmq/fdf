@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/10 21:33:05 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/13 11:26:01 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ typedef struct	s_df
 	int			height;
 	int			z_max;
 	int			z_min;
-	int			***map;
+	int			**map;
 }	t_df;
 
 typedef struct	s_cam
 {
 	
 }	t_cam;
+
 typedef struct	s_prog
 {
 	void	*mlx_ptr;
@@ -82,9 +83,12 @@ static int	ft_splitlen(char **split);
 parser.c
 */
 void	parse_df(t_df *df, char *file);
-static int	ft_get_width(char *file);
-static int	ft_get_height(char *file);
+static int	get_width(char *file);
+static int	get_height(char *file);
 
-
+/*
+utils.c
+*/
+void	ft_free_strarr(char **str);
 
 #endif
