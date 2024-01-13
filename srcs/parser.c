@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/13 11:29:03 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/13 13:18:24 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	parse_df(t_df *df, char *file)
 	df->height = get_height(file);
 	df->width = get_width(file);
 	df->map = malloc_map(df);
-	i = -1;
+	i = 0;
 	while (ft_next_line(fd, &line) > 0)
 	{
 		split = ft_split(line, ' ');
 		j = -1;
-		while (j++ < df->width)
+		while (++j < df->width)
 			df->map[i][j] = ft_atoi(split[j]);
 		i++;
 		free(line);
