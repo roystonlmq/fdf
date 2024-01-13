@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 21:06:02 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/10 21:22:04 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/13 12:58:13 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_next_line(int fd, char **line)
 	return (1);
 }
 
-static int	ft_splitlen(char **split)
+int	ft_splitlen(char **split)
 {
 	int	i;
 
