@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/13 11:26:01 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/13 14:03:43 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,14 @@
 # define WIN_HEIGHT 1080
 # define TITLE "FdF"
 
-typedef struct	s_point
-{
-	int			x;
-	int			y;
-	int			z;
-	int			color;
-}	t_point;
-
 typedef struct	s_df
 {
-	int			width;
-	int			height;
-	int			z_max;
-	int			z_min;
-	int			**map;
+	float	x_tmp;
+	float	y_tmp;
+	int		width;
+	int		height;
+	int		**map;
 }	t_df;
-
-typedef struct	s_cam
-{
-	
-}	t_cam;
 
 typedef struct	s_prog
 {
@@ -56,10 +43,9 @@ typedef struct	s_prog
 	void	*mlx_img;
 	char	*mlx_data;
 	int		bpp;
-	int		sz_ln;
+	int		length;
 	int		endian;
 	t_df	*df;
-	
 }	t_prog;
 
 /*
@@ -77,18 +63,23 @@ t_df	*init_df(void);
 next_line.c
 */
 int	ft_next_line(int fd, char **line);
-static int	ft_splitlen(char **split);
+int	ft_splitlen(char **split);
 
 /*
 parser.c
 */
 void	parse_df(t_df *df, char *file);
-static int	get_width(char *file);
-static int	get_height(char *file);
 
 /*
 utils.c
 */
 void	ft_free_strarr(char **str);
+int		ft_abs(int a);
+
+/*
+draw.c
+*/
+void	draw_line(int x, int y, int x1, int y1, t_prog *app);
+void	draw(t_df *df, t_prog *app);
 
 #endif
