@@ -6,7 +6,7 @@
 #    By: roylee <roylee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/01 16:22:42 by sgoffaux          #+#    #+#              #
-#    Updated: 2024/01/13 11:26:20 by roylee           ###   ########.fr        #
+#    Updated: 2024/01/13 13:37:07 by roylee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,11 @@ MLX_A		=	$(addprefix $(MLX), libmlx.a)
 
 CC			=	gcc
 INCLUDE 	=	includes
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE)
+CFLAGS		=	-Wall -Wextra -I$(INCLUDE)
 RM			=	rm -f
-SRCS		=	main.c srcs/error.c srcs/init.c srcs/next_line.c srcs/parser.c
-				srcs/utils.c
+SRCS		=	main.c srcs/error.c srcs/init.c srcs/next_line.c srcs/parser.c \
+				srcs/utils.c srcs/draw.c
+				
 
 OBJS		=	$(SRCS:%.c=%.o)
 
