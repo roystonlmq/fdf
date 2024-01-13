@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/09 21:37:21 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/13 13:12:28 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_prog	*init_prog(void)
 	app->mlx_img = mlx_new_image(app->mlx_ptr, app->width, app->height);
 	if (!app->mlx_img)
 		exception(1, "Failed to create new image");
-	app->mlx_data = mlx_get_data_addr(app->mlx_img, &app->bpp, &app->sz_ln, 
+	app->mlx_data = mlx_get_data_addr(app->mlx_img, &app->bpp, &app->length, 
 					&app->endian);
 	if (!app->mlx_data)
 		exception(1, "Failed to get data address");
@@ -47,8 +47,6 @@ t_df	*init_df(void)
 	df->map = NULL;
 	df->width = 0;
 	df->height = 0;
-	df->z_max = 0;
-	df->z_min = 0;
 	return (df);
 }
 
