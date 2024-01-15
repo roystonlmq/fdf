@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/13 14:03:43 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/15 22:24:44 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,33 @@
 # define WIN_HEIGHT 1080
 # define TITLE "FdF"
 
+typedef struct s_point
+{
+	double	x;
+	double	y;
+	double	z;
+	int		color;	
+}	t_point;
+
 typedef struct	s_df
 {
-	float	x_tmp;
-	float	y_tmp;
 	int		width;
 	int		height;
+	double	zoom;
+	double	h_view;
+	double	h_move;
+	double	v_move;
 	int		**map;
 }	t_df;
 
 typedef struct	s_prog
 {
-	void	*mlx_ptr;
 	int		width;
 	int		height;
-	void	*mlx_win;
-	void	*mlx_img;
-	char	*mlx_data;
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*data;
 	int		bpp;
 	int		length;
 	int		endian;
@@ -74,12 +84,15 @@ void	parse_df(t_df *df, char *file);
 utils.c
 */
 void	ft_free_strarr(char **str);
-int		ft_abs(int a);
+int	find_max(int num1, int num2);
+int	find_mod(int num);
 
 /*
 draw.c
 */
-void	draw_line(int x, int y, int x1, int y1, t_prog *app);
-void	draw(t_df *df, t_prog *app);
+int		fade(int z);
+void	transform_point(t_point *p, t_df *df);
+void	draw_line(t_prog *app, t_point p1, t_point p2, int color);
+void	draw_loop(t_prog *app, t_df *df);
 
 #endif
