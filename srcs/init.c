@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/13 13:12:28 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/15 21:16:55 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ t_prog	*init_prog(void)
 	app = (t_prog *)malloc(sizeof(t_prog));
 	if (!app)
 		exception(1, "Failed to allocate memory for app");
-	app->mlx_ptr = mlx_init();
-	if (!app->mlx_ptr)
+	app->mlx = mlx_init();
+	if (!app->mlx)
 		exception(1, "Failed to initialise MLX");
-	mlx_get_screen_size(app->mlx_ptr, &app->width, &app->height);
-	app->mlx_win = mlx_new_window(app->mlx_ptr, app->width, app->height, TITLE);
-	if (!app->mlx_win)
+	mlx_get_screen_size(app->mlx, &app->width, &app->height);
+	app->win = mlx_new_window(app->mlx, app->width, app->height, TITLE);
+	if (!app->win)
 		exception(1, "Failed to create new window");
-	app->mlx_img = mlx_new_image(app->mlx_ptr, app->width, app->height);
-	if (!app->mlx_img)
+	app->img = mlx_new_image(app->mlx, app->width, app->height);
+	if (!app->img)
 		exception(1, "Failed to create new image");
-	app->mlx_data = mlx_get_data_addr(app->mlx_img, &app->bpp, &app->length, 
+	app->data = mlx_get_data_addr(app->img, &app->bpp, &app->length, 
 					&app->endian);
-	if (!app->mlx_data)
+	if (!app->data)
 		exception(1, "Failed to get data address");
 	app->df = NULL;
 	return (app);
