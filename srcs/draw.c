@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 11:34:33 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/13 14:03:24 by roylee           ###   ########.fr       */
+/*   Created: 2022/02/06 16:54:51 by decortejohn       #+#    #+#             */
+/*   Updated: 2024/01/15 22:25:31 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,117 +15,112 @@
 int	fade(int h)
 {
 	if (h > 100)
-		return (0x00FF40);
+		return (0xFFDF8D);
 	if (h > 75)
-		return (0x12FF4E);
+		return (0xFFDE7A);
 	if (h > 50)
-		return (0x2EFF63);
+		return (0xFFC568);
 	if (h > 25)
-		return (0x4CFF79);
+		return (0xFD996B);
 	if (h > 15)
-		return (0x61FF89);
+		return (0xF7856C);
 	if (h > 10)
-		return (0x7BFF9C);
+		return (0xF06E6C);
 	if (h > 5)
-		return (0x82DD99);
+		return (0xD9576B);
 	if (h > 0)
-		return (0x66B479);
+		return (0xA44369);
 	if (h > -10)
-		return (0x4A7C57);
+		return (0x833F68);
 	if (h > -20)
-		return (0x6F8775);
+		return (0x833F68);
 	if (h > -50)
-		return (0x8B9D8F);
-	return (0xAED6B6);
+		return (0x5E3C65);
+	return (0x3F3A63);
 }
 
-void	pixel_put(t_prog *app, int x, int y, int color)
+/*
+transform_point:
+
+Takes a point of coord(x, y, z) and transforms into a new point 
+of coord(x, y) using isometric projection 
+*/
+void	transform_point(t_point *p, t_df *df)
 {
-	int	i;
+	int	previous_x;
+	int	previous_y;
 
-	i = (y * app->length + x * (app->bpp / 8));
-
-	app->mlx_data[i] = color;
-	app->mlx_data[++i] = color >> 8;
-	app->mlx_data[++i] = color >> 16;
+	previous_x = p->x * df->zoom;
+	previous_y = p->y * df->zoom;
+	p->x = (previous_x - previous_y) * cos(0.523599) + df->h_move;
+	p->y = -p->z + (previous_x + previous_y) * sin(0.523599) + df->v_move;
 }
 
-void	isometric_projection(t_df *df)
+void	draw_line(t_prog *app, t_point p1, t_point p2, int color)
 {
-	int		i;
-	int		j;
+	double	deltaX;
+	double	deltaY;
+	int		pixels;
+	double	pixelX;
+	double	pixelY;
+	
+	transform_point(&p1, app->df);
+	transform_point(&p2, app->df);
+	deltaX = p2.x - p1.x;
+	deltaY = p2.y - p1.y;
+	pixels = sqrt(deltaX * deltaX + deltaY * deltaY);
+	deltaX /= pixels;
+	deltaY /= pixels;
+	pixelX = p1.x;
+	pixelY = p1.y;
+	printf("%f %f \n ", pixelX, pixelY);
+	while (pixels)
+	{
+		mlx_pixel_put(app->mlx, app->win, pixelX, pixelY, color);
+		pixelX += deltaX;
+		pixelY += deltaY;
+		pixels--;
+	}
+}
+
+void	draw_loop(t_prog *app, t_df *df)
+{
 	int		x;
 	int		y;
+	t_point	p1;
+	t_point	p2;
 
-	i = 0;
-	while (i < df->height)
+	// ft_bzero(app->data, WIN_WIDTH * WIN_HEIGHT * (app->bpp / 8));
+	y = 0;
+	while (y < df->height)
 	{
-		j = 0;
-		while (j < df->width)
+		x = 0;
+		while (x < df->width)
 		{
-			x = (j - i) * cos(0.523599);
-			y = (j + i) * sin(0.523599) - df->map[i][j];
-			df->map[i][j] = x;
-			df->map[i][j + 1] = y;
-			j += 2;
+			p1.x = x * df->zoom + df->h_move;
+			p1.y = y * df->zoom + df->v_move;
+			p1.z = df->map[y][x] * df->h_view;
+			p1.color = fade(p1.z);
+			if (x < df->width - 1)
+			{
+				p2.x = (x + 1) * df->zoom + df->h_move;
+				p2.y = y * df->zoom + df->v_move;
+				p2.z = df->map[y][x + 1] * df->h_view;
+				p2.color = fade(p2.z);
+				draw_line(app, p1, p2, p1.color);
+			}
+			if (y < df->height - 1)
+			{
+				p2.x = x * df->zoom + df->h_move;
+				p2.y = (y + 1) * df->zoom + df->v_move;
+				p2.z = df->map[y + 1][x] * df->h_view;
+				p2.color = fade(p2.z);
+				draw_line(app, p1, p2, p1.color);
+			}
+			x++;
 		}
-		i++;
+		y++;
 	}
-}
-void	draw_line(int x, int y, int x1, int y1, t_prog *app)
-{
-	int		dx;
-	int		dy;
-	int		sx;
-	int		sy;
-	int		err;
-	int		e2;
-
-	dx = abs(x1 - x);
-	dy = abs(y1 - y);
-	sx = x < x1 ? 1 : -1;
-	sy = y < y1 ? 1 : -1;
-	err = (dx > dy ? dx : -dy) / 2;
-	while (1)
-	{
-		pixel_put(app, x, y, fade(y1 - y));
-		if (x == x1 && y == y1)
-			break ;
-		e2 = err;
-		if (e2 > -dx)
-		{
-			err -= dy;
-			x += sx;
-		}
-		if (e2 < dy)
-		{
-			err += dx;
-			y += sy;
-		}
-	}
+	// mlx_put_image_to_window(app->mlx, app->win, app->img, 0, 0);
 }
 
-void	draw(t_df *df, t_prog *app)
-{
-	int		i;
-	int		j;
-	int		x;
-	int		y;
-
-	i = 0;
-	while (i < df->height)
-	{
-		j = 0;
-		while (j < df->width)
-		{
-			x = df->map[i][j];
-			y = df->map[i][j + 1];
-			if (j + 2 < df->width)
-				draw_line(x, y, df->map[i][j + 2], df->map[i][j + 3], app);
-			if (i + 1 < df->height)
-				draw_line(x, y, df->map[i + 1][j], df->map[i + 1][j + 1], app);
-			j += 2;
-		}
-		i++;
-	}
-}
