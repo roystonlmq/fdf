@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:54:51 by decortejohn       #+#    #+#             */
-/*   Updated: 2024/01/15 22:25:31 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/16 22:06:51 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,18 @@ void	transform_point(t_point *p, t_df *df)
 	p->y = -p->z + (previous_x + previous_y) * sin(0.523599) + df->v_move;
 }
 
+void	ft_put_pixel(t_prog *app, int x, int y, int color)
+{
+	int		i;
+
+	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
+		return ;
+	i = (x * app->bpp / 8) + (y * app->length);
+	app->data[i] = color;
+	app->data[++i] = color >> 8;
+	app->data[++i] = color >> 16;
+}
+
 void	draw_line(t_prog *app, t_point p1, t_point p2, int color)
 {
 	double	deltaX;
@@ -76,7 +88,7 @@ void	draw_line(t_prog *app, t_point p1, t_point p2, int color)
 	printf("%f %f \n ", pixelX, pixelY);
 	while (pixels)
 	{
-		mlx_pixel_put(app->mlx, app->win, pixelX, pixelY, color);
+		ft_put_pixel(app, pixelX, pixelY, color);
 		pixelX += deltaX;
 		pixelY += deltaY;
 		pixels--;

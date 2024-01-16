@@ -17,8 +17,9 @@ int	main(int argc, char **argv)
 	parse_df(prog->df, "test_maps/100-6.fdf");
 	prog->df->zoom = find_max(prog->df->width / prog->df->height, 5);
 	printf("%f %f\n", prog->df->zoom, prog->df->h_view);
-	adjust_map(prog->df);
+	// adjust_map(prog->df);
 	draw_loop(prog, prog->df);
+	mlx_put_image_to_window(prog->mlx, prog->win, prog->img, 0, 0);
 	mlx_loop(prog->mlx);
 	return (0);
 }
