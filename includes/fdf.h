@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/17 18:56:58 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 21:49:40 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,19 @@ typedef struct s_point
 	int		color;	
 }	t_point;
 
+typedef struct	s_map
+{
+	t_point **coord;
+	double	max_x;
+	double	max_y;
+	double	min_x;
+	double	min_y;
+}	t_map;
+
 typedef struct	s_df
 {
+	int		x;
+	int		y;
 	int		width;
 	int		height;
 	double	zoom;
@@ -42,6 +53,8 @@ typedef struct	s_df
 	double	h_move;
 	double	v_move;
 	int		**map;
+	t_map	*t_map;
+	t_point	*offset;
 }	t_df;
 
 typedef struct	s_prog
@@ -84,14 +97,15 @@ void	parse_df(t_df *df, char *file);
 utils.c
 */
 void	ft_free_strarr(char **str);
-int	find_max(int num1, int num2);
-int	find_mod(int num);
+int		find_max(int num1, int num2);
+int		find_min(int num1, int num2);
+int		find_mod(int num);
 
 /*
 draw.c
 */
 int		fade(int z);
-void	transform_point(t_point *p, t_df *df);
+void	transform_point(t_point *p1, t_point *p2, t_df *df);
 void	draw_line(t_prog *app, t_point p1, t_point p2);
 void	draw_loop(t_prog *app, t_df *df);
 
