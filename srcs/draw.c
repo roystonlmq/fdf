@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:54:51 by decortejohn       #+#    #+#             */
-/*   Updated: 2024/01/17 18:56:53 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 21:44:47 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,21 @@ transform_point:
 Takes a point of coord(x, y, z) and transforms into a new point 
 of coord(x, y) using isometric projection 
 */
-void	transform_point(t_point *p, t_df *df)
+void	transform_point(t_point *p1, t_point *p2, t_df *df)
 {
-	int	previous_x;
-	int	previous_y;
+	int		previous_x1;
+	int		previous_y1;
+	int		previous_x2;
+	int		previous_y2;
 
-	previous_x = p->x * df->zoom;
-	previous_y = p->y * df->zoom;
-	p->x = (previous_x - previous_y) * cos(0.523599) + df->h_move;
-	p->y = -p->z + (previous_x + previous_y) * sin(0.523599) + df->v_move;
+	previous_x1 = p1->x;
+	previous_y1 = p1->y;
+	p1->x = (previous_x1 - previous_y1) * cos(0.523599);
+	p1->y = -p1->z + (previous_x1 + previous_y1) * sin(0.523599);
+	previous_x2 = p2->x;
+	previous_y2 = p2->y;
+	p2->x = (previous_x2 - previous_y2) * cos(0.523599);
+	p2->y = -p2->z + (previous_x2 + previous_y2) * sin(0.523599);
 }
 
 void	ft_put_pixel(t_prog *app, int x, int y, int color)
@@ -76,8 +82,8 @@ void	draw_line(t_prog *app, t_point p1, t_point p2)
 	double	pixelX;
 	double	pixelY;
 	
-	transform_point(&p1, app->df);
-	transform_point(&p2, app->df);
+	transform_point(&p1, &p2, app->df);
+	
 	deltaX = p2.x - p1.x;
 	deltaY = p2.y - p1.y;
 	pixels = sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -97,39 +103,34 @@ void	draw_line(t_prog *app, t_point p1, t_point p2)
 
 void	draw_loop(t_prog *app, t_df *df)
 {
-	int		x;
-	int		y;
 	t_point	p1;
 	t_point	p2;
 
-	// ft_bzero(app->data, WIN_WIDTH * WIN_HEIGHT * (app->bpp / 8));
-	y = 0;
-	while (y < df->height)
+	df->y = 0;
+	while (df->y < df->height)
 	{
-		x = 0;
-		while (x < df->width)
+		df->x = 0;
+		while (df->x < df->width)
 		{
-			p1.x = x * df->zoom + df->h_move;
-			p1.y = y * df->zoom + df->v_move;
-			p1.z = df->map[y][x] * df->h_view;
-			if (x < df->width - 1)
+			p1.x = df->x * df->zoom + df->h_move;
+			p1.y = df->y * df->zoom + df->v_move;
+			p1.z = df->map[df->y][df->x] * df->h_view;
+			if (df->x < df->width - 1)
 			{
-				p2.x = (x + 1) * df->zoom + df->h_move;
-				p2.y = y * df->zoom + df->v_move;
-				p2.z = df->map[y][x + 1] * df->h_view;
+				p2.x = (df->x + 1) * df->zoom + df->h_move;
+				p2.y = df->y * df->zoom + df->v_move;
+				p2.z = df->map[df->y][df->x + 1] * df->h_view;
 				draw_line(app, p1, p2);
 			}
-			if (y < df->height - 1)
+			if (df->y < df->height - 1)
 			{
-				p2.x = x * df->zoom + df->h_move;
-				p2.y = (y + 1) * df->zoom + df->v_move;
-				p2.z = df->map[y + 1][x] * df->h_view;
+				p2.x = df->x * df->zoom + df->h_move;
+				p2.y = (df->y + 1) * df->zoom + df->v_move;
+				p2.z = df->map[df->y + 1][df->x] * df->h_view;
 				draw_line(app, p1, p2);
 			}
-			x++;
+			df->x++;
 		}
-		y++;
+		df->y++;
 	}
-	// mlx_put_image_to_window(app->mlx, app->win, app->img, 0, 0);
 }
-

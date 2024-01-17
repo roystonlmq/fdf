@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 11:24:26 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/15 21:50:29 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 21:49:24 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	ft_free_strarr(char **str)
 int	find_max(int num1, int num2)
 {
 	if (num1 > num2)
+		return (num1);
+	else
+		return (num2);
+}
+
+int	find_min(int num1, int num2)
+{
+	if (num1 < num2)
 		return (num1);
 	else
 		return (num2);

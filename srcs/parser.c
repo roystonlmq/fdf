@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/13 13:18:24 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 21:48:44 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	get_width(char *file)
 	return (width);
 }
 
+
 static int	**malloc_map(t_df *df)
 {
 	int		**map;
@@ -66,13 +67,154 @@ static int	**malloc_map(t_df *df)
 	return (map);
 }
 
+void	map_init(t_df *df)
+{
+	df->t_map = (t_map *)malloc(sizeof(t_map));
+	if (!df->t_map)
+		exception(1, "Failed to allocate memory for map");
+	df->t_map->coord = NULL;
+	df->t_map->max_x = 0;
+	df->t_map->max_y = 0;
+	df->t_map->min_x = 0;
+	df->t_map->min_y = 0;
+}
+
+t_point	**init_coord(int width, int height)
+{
+	t_point	**coords;
+	int		i;
+	int		j;
+
+	coords = (t_point **)malloc(sizeof(t_point *) * height);
+	if (!coords)
+		exception(1, "Failed to allocate memory for coords");
+	i = 0;
+	while (i < width)
+	{
+		coords[i] = malloc(height * sizeof(t_point));
+		if (!coords[i])
+			exception(1, "Failed to allocate memory for coords");
+		j = 0;
+		while (j < height)
+		{
+			coords[i][j].x = 0;
+			coords[i][j].y = 0;
+			coords[i][j].z = 0;
+			j++;
+		}
+		i++;
+	}
+	return (coords);
+}
+/*
+ft_fill_map will first split the line with ' ' and then
+check if the split str contains ',', if it does, it will
+split the str again with ',' and then convert the str to
+int and store it in the map.
+*/
+static void	ft_fill_map(t_df *df, char *line, int i)
+{
+	char	**split;
+	int		j;
+	char	**split2;
+	t_point	p;
+	
+	split = ft_split(line, ' ');
+	j = -1;
+	while (++j < df->width)
+	{
+		if (ft_strchr(split[j], ','))
+		{
+			split2 = ft_split(split[j], ',');
+			p.x = j;
+			p.y = i;
+			p.z = ft_atoi(split2[0]);
+			df->map[i][j] = ft_atoi(split2[0]);
+			ft_free_strarr(split2);
+		}
+		else
+			df->map[i][j] = ft_atoi(split[j]);
+	}
+	ft_free_strarr(split);
+}
+
+static void	update_minmax(t_df *df, int j, int i)
+{
+		if (df->t_map->coord[j][i].x > df->t_map->max_x)
+			df->t_map->max_x = df->t_map->coord[j][i].x;
+		if (df->t_map->coord[j][i].y > df->t_map->max_y)
+			df->t_map->max_y = df->t_map->coord[j][i].y;
+		if (df->t_map->coord[j][i].x < df->t_map->min_x)
+			df->t_map->min_x = df->t_map->coord[j][i].x;
+		if (df->t_map->coord[j][i].y < df->t_map->min_y)
+			df->t_map->min_y = df->t_map->coord[j][i].y;
+}
+
+static void	ft_fill_tmap(t_df *df, char *line, int i)
+{
+	char	**split;
+	int		j;
+	char	**split2;
+
+	map_init(df);
+	df->t_map->coord = init_coord(df->width, df->height);
+	split = ft_split(line, ' ');
+	j = -1;
+	while (++j < df->width)
+	{
+		df->t_map->coord[j][i].x = (double)j;
+		df->t_map->coord[j][i].y = (double)i;
+		update_minmax(df, j, i);
+		if (ft_strchr(split[j], ','))
+		{
+			split2 = ft_split(split[j], ',');
+			df->t_map->coord[j][i].z = (double)ft_atoi(split2[0]);
+			ft_free_strarr(split2);
+		}
+		else
+			df->t_map->coord[j][i].z = (double)ft_atoi(split[j]);
+	}
+	ft_free_strarr(split);
+}
+
+static void	ft_adjust_tmap(t_df *df)
+{
+	int		i;
+	int		j;
+	double	min_x;
+	double	min_y;
+	double	max_x;
+	double	max_y;
+
+	i = 0;
+	min_x = df->t_map->coord[0][0].x;
+	min_y = df->t_map->coord[0][0].y;
+	max_x = df->t_map->coord[0][0].x;
+	max_y = df->t_map->coord[0][0].y;
+	while (i < df->width)
+	{
+		j = 0;
+		while (j < df->height)
+		{
+			min_x = find_min(min_x, df->t_map->coord[i][j].x);
+			min_y = find_min(min_y, df->t_map->coord[i][j].y);
+			max_x = find_max(max_x, df->t_map->coord[i][j].x);
+			max_y = find_max(max_y, df->t_map->coord[i][j].y);
+			j++;
+		}
+		i++;
+	}
+	df->t_map->min_x = min_x;
+	df->t_map->min_y = min_y;
+	df->t_map->max_x = max_x;
+	df->t_map->max_y = max_y;
+}
+
 void	parse_df(t_df *df, char *file)
 {
 	int		fd;
 	char	*line;
-	char	**split;
 	int		i;
-	int		j;
 
 	fd = open(file, O_RDONLY, 0777);
 	if (fd < 0)
@@ -83,13 +225,12 @@ void	parse_df(t_df *df, char *file)
 	i = 0;
 	while (ft_next_line(fd, &line) > 0)
 	{
-		split = ft_split(line, ' ');
-		j = -1;
-		while (++j < df->width)
-			df->map[i][j] = ft_atoi(split[j]);
+		ft_fill_map(df, line, i);
+		ft_fill_tmap(df, line, i);
+		
 		i++;
-		free(line);
-		ft_free_strarr(split);
 	}
+	ft_adjust_tmap(df);
+	// ft_transform_map(df);
 	close(fd);
 }
