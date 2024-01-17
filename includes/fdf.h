@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/15 22:24:44 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:56:58 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ draw.c
 */
 int		fade(int z);
 void	transform_point(t_point *p, t_df *df);
-void	draw_line(t_prog *app, t_point p1, t_point p2, int color);
+void	draw_line(t_prog *app, t_point p1, t_point p2);
 void	draw_loop(t_prog *app, t_df *df);
 
 #endif

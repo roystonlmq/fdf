@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:54:51 by decortejohn       #+#    #+#             */
-/*   Updated: 2024/01/16 22:06:51 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:56:53 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_put_pixel(t_prog *app, int x, int y, int color)
 	app->data[++i] = color >> 16;
 }
 
-void	draw_line(t_prog *app, t_point p1, t_point p2, int color)
+void	draw_line(t_prog *app, t_point p1, t_point p2)
 {
 	double	deltaX;
 	double	deltaY;
@@ -88,7 +88,7 @@ void	draw_line(t_prog *app, t_point p1, t_point p2, int color)
 	printf("%f %f \n ", pixelX, pixelY);
 	while (pixels)
 	{
-		ft_put_pixel(app, pixelX, pixelY, color);
+		ft_put_pixel(app, pixelX, pixelY, fade(find_max(p1.z, p2.z)));
 		pixelX += deltaX;
 		pixelY += deltaY;
 		pixels--;
@@ -112,22 +112,19 @@ void	draw_loop(t_prog *app, t_df *df)
 			p1.x = x * df->zoom + df->h_move;
 			p1.y = y * df->zoom + df->v_move;
 			p1.z = df->map[y][x] * df->h_view;
-			p1.color = fade(p1.z);
 			if (x < df->width - 1)
 			{
 				p2.x = (x + 1) * df->zoom + df->h_move;
 				p2.y = y * df->zoom + df->v_move;
 				p2.z = df->map[y][x + 1] * df->h_view;
-				p2.color = fade(p2.z);
-				draw_line(app, p1, p2, p1.color);
+				draw_line(app, p1, p2);
 			}
 			if (y < df->height - 1)
 			{
 				p2.x = x * df->zoom + df->h_move;
 				p2.y = (y + 1) * df->zoom + df->v_move;
 				p2.z = df->map[y + 1][x] * df->h_view;
-				p2.color = fade(p2.z);
-				draw_line(app, p1, p2, p1.color);
+				draw_line(app, p1, p2);
 			}
 			x++;
 		}
