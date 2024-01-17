@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/17 21:39:14 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 22:15:14 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_df	*init_df(void)
 	df->map = NULL;
 	df->width = 0;
 	df->height = 0;
+	map_init(df);
 	return (df);
 }
 

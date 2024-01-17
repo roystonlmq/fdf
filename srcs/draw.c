@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:54:51 by decortejohn       #+#    #+#             */
-/*   Updated: 2024/01/17 21:44:47 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 22:41:58 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ void	transform_point(t_point *p1, t_point *p2, t_df *df)
 
 	previous_x1 = p1->x;
 	previous_y1 = p1->y;
-	p1->x = (previous_x1 - previous_y1) * cos(0.523599);
-	p1->y = -p1->z + (previous_x1 + previous_y1) * sin(0.523599);
+	p1->x = (previous_x1 - previous_y1) * cos(0.523599) + find_mod(df->t_map->min_x);//+ (WIN_WIDTH / 2 - find_mod(df->t_map->max_x));
+	p1->y = -p1->z + (previous_x1 + previous_y1) * sin(0.523599) - (WIN_HEIGHT / 2- find_mod(df->t_map->min_y));
 	previous_x2 = p2->x;
 	previous_y2 = p2->y;
-	p2->x = (previous_x2 - previous_y2) * cos(0.523599);
-	p2->y = -p2->z + (previous_x2 + previous_y2) * sin(0.523599);
+	p2->x = (previous_x2 - previous_y2) * cos(0.523599) + find_mod(df->t_map->min_x);// + (WIN_WIDTH / 2 - find_mod(df->t_map->max_x));
+	p2->y = -p2->z + (previous_x2 + previous_y2) * sin(0.523599) - (WIN_HEIGHT / 2 - find_mod(df->t_map->min_y));
+	printf("%f %f \n ", p1->x, p1->y);
 }
 
 void	ft_put_pixel(t_prog *app, int x, int y, int color)
@@ -91,10 +92,10 @@ void	draw_line(t_prog *app, t_point p1, t_point p2)
 	deltaY /= pixels;
 	pixelX = p1.x;
 	pixelY = p1.y;
-	printf("%f %f \n ", pixelX, pixelY);
+	// printf("%f %f \n ", pixelX, pixelY);
 	while (pixels)
 	{
-		ft_put_pixel(app, pixelX, pixelY, fade(find_max(p1.z, p2.z)));
+		ft_put_pixel(app, pixelX + app->df->t_map->min_x, pixelY + app->df->t_map->min_y, fade(find_max(p1.z, p2.z)));
 		pixelX += deltaX;
 		pixelY += deltaY;
 		pixels--;

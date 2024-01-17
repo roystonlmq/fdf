@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/17 21:48:44 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/17 22:15:34 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,74 +140,39 @@ static void	ft_fill_map(t_df *df, char *line, int i)
 
 static void	update_minmax(t_df *df, int j, int i)
 {
-		if (df->t_map->coord[j][i].x > df->t_map->max_x)
-			df->t_map->max_x = df->t_map->coord[j][i].x;
-		if (df->t_map->coord[j][i].y > df->t_map->max_y)
-			df->t_map->max_y = df->t_map->coord[j][i].y;
-		if (df->t_map->coord[j][i].x < df->t_map->min_x)
-			df->t_map->min_x = df->t_map->coord[j][i].x;
-		if (df->t_map->coord[j][i].y < df->t_map->min_y)
-			df->t_map->min_y = df->t_map->coord[j][i].y;
+	if (df->t_map->coord[j][i].x > df->t_map->max_x)
+		df->t_map->max_x = df->t_map->coord[j][i].x;
+	if (df->t_map->coord[j][i].y > df->t_map->max_y)
+		df->t_map->max_y = df->t_map->coord[j][i].y;
+	if (df->t_map->coord[j][i].x < df->t_map->min_x)
+		df->t_map->min_x = df->t_map->coord[j][i].x;
+	if (df->t_map->coord[j][i].y < df->t_map->min_y)
+		df->t_map->min_y = df->t_map->coord[j][i].y;
 }
 
-static void	ft_fill_tmap(t_df *df, char *line, int i)
+static void	ft_fill_tmap(t_df *df, char *line, int j)
 {
 	char	**split;
-	int		j;
+	int		i;
 	char	**split2;
-
-	map_init(df);
-	df->t_map->coord = init_coord(df->width, df->height);
+	
 	split = ft_split(line, ' ');
-	j = -1;
-	while (++j < df->width)
+	i = -1;
+	while (++i < df->width)
 	{
-		df->t_map->coord[j][i].x = (double)j;
-		df->t_map->coord[j][i].y = (double)i;
+		df->t_map->coord[j][i].x = (double)i;
+		df->t_map->coord[j][i].y = (double)j;
 		update_minmax(df, j, i);
-		if (ft_strchr(split[j], ','))
+		if (ft_strchr(split[i], ','))
 		{
-			split2 = ft_split(split[j], ',');
+			split2 = ft_split(split[i], ',');
 			df->t_map->coord[j][i].z = (double)ft_atoi(split2[0]);
 			ft_free_strarr(split2);
 		}
 		else
-			df->t_map->coord[j][i].z = (double)ft_atoi(split[j]);
+			df->t_map->coord[j][i].z = (double)ft_atoi(split[i]);
 	}
 	ft_free_strarr(split);
-}
-
-static void	ft_adjust_tmap(t_df *df)
-{
-	int		i;
-	int		j;
-	double	min_x;
-	double	min_y;
-	double	max_x;
-	double	max_y;
-
-	i = 0;
-	min_x = df->t_map->coord[0][0].x;
-	min_y = df->t_map->coord[0][0].y;
-	max_x = df->t_map->coord[0][0].x;
-	max_y = df->t_map->coord[0][0].y;
-	while (i < df->width)
-	{
-		j = 0;
-		while (j < df->height)
-		{
-			min_x = find_min(min_x, df->t_map->coord[i][j].x);
-			min_y = find_min(min_y, df->t_map->coord[i][j].y);
-			max_x = find_max(max_x, df->t_map->coord[i][j].x);
-			max_y = find_max(max_y, df->t_map->coord[i][j].y);
-			j++;
-		}
-		i++;
-	}
-	df->t_map->min_x = min_x;
-	df->t_map->min_y = min_y;
-	df->t_map->max_x = max_x;
-	df->t_map->max_y = max_y;
 }
 
 void	parse_df(t_df *df, char *file)
@@ -221,16 +186,15 @@ void	parse_df(t_df *df, char *file)
 		exception(1, "Failed to open file");
 	df->height = get_height(file);
 	df->width = get_width(file);
+	df->t_map->coord = init_coord(df->width, df->height);
 	df->map = malloc_map(df);
 	i = 0;
 	while (ft_next_line(fd, &line) > 0)
 	{
 		ft_fill_map(df, line, i);
 		ft_fill_tmap(df, line, i);
-		
 		i++;
 	}
-	ft_adjust_tmap(df);
 	// ft_transform_map(df);
 	close(fd);
 }
