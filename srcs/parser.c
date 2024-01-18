@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/17 22:15:34 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/18 20:14:47 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,7 @@ static int	**malloc_map(t_df *df)
 	return (map);
 }
 
-void	map_init(t_df *df)
-{
-	df->t_map = (t_map *)malloc(sizeof(t_map));
-	if (!df->t_map)
-		exception(1, "Failed to allocate memory for map");
-	df->t_map->coord = NULL;
-	df->t_map->max_x = 0;
-	df->t_map->max_y = 0;
-	df->t_map->min_x = 0;
-	df->t_map->min_y = 0;
-}
+
 
 t_point	**init_coord(int width, int height)
 {
@@ -117,7 +107,6 @@ static void	ft_fill_map(t_df *df, char *line, int i)
 	char	**split;
 	int		j;
 	char	**split2;
-	t_point	p;
 	
 	split = ft_split(line, ' ');
 	j = -1;
@@ -126,9 +115,6 @@ static void	ft_fill_map(t_df *df, char *line, int i)
 		if (ft_strchr(split[j], ','))
 		{
 			split2 = ft_split(split[j], ',');
-			p.x = j;
-			p.y = i;
-			p.z = ft_atoi(split2[0]);
 			df->map[i][j] = ft_atoi(split2[0]);
 			ft_free_strarr(split2);
 		}
