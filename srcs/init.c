@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/18 20:13:49 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/18 20:28:54 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,34 @@ void	map_init(t_df *df)
 	df->t_map->max_y = 0;
 	df->t_map->min_x = 0;
 	df->t_map->min_y = 0;
+}
+
+t_point	**init_coord(int width, int height)
+{
+	t_point	**coords;
+	int		i;
+	int		j;
+
+	coords = (t_point **)malloc(sizeof(t_point *) * height);
+	if (!coords)
+		exception(1, "Failed to allocate memory for coords");
+	i = 0;
+	while (i < height)
+	{
+		coords[i] = malloc(width * sizeof(t_point));
+		if (!coords[i])
+			exception(1, "Failed to allocate memory for coords");
+		j = 0;
+		while (j < width)
+		{
+			coords[i][j].x = 0;
+			coords[i][j].y = 0;
+			coords[i][j].z = 0;
+			j++;
+		}
+		i++;
+	}
+	return (coords);
 }
 
 t_df	*init_df(void)

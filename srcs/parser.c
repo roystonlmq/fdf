@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/18 20:14:47 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/18 22:36:49 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,7 @@ static int	**malloc_map(t_df *df)
 
 
 
-t_point	**init_coord(int width, int height)
-{
-	t_point	**coords;
-	int		i;
-	int		j;
 
-	coords = (t_point **)malloc(sizeof(t_point *) * height);
-	if (!coords)
-		exception(1, "Failed to allocate memory for coords");
-	i = 0;
-	while (i < width)
-	{
-		coords[i] = malloc(height * sizeof(t_point));
-		if (!coords[i])
-			exception(1, "Failed to allocate memory for coords");
-		j = 0;
-		while (j < height)
-		{
-			coords[i][j].x = 0;
-			coords[i][j].y = 0;
-			coords[i][j].z = 0;
-			j++;
-		}
-		i++;
-	}
-	return (coords);
-}
 /*
 ft_fill_map will first split the line with ' ' and then
 check if the split str contains ',', if it does, it will
@@ -126,6 +100,9 @@ static void	ft_fill_map(t_df *df, char *line, int i)
 
 static void	update_minmax(t_df *df, int j, int i)
 {
+	// printf("x: %f y: %f \n", df->t_map->coord[j][i].x, df->t_map->coord[j][i].y);
+	// printf("current\n");
+	// printf("min x: %f min y: %f max x: %f max y: %f \n", df->t_map->min_x, df->t_map->min_y, df->t_map->max_x, df->t_map->max_y);
 	if (df->t_map->coord[j][i].x > df->t_map->max_x)
 		df->t_map->max_x = df->t_map->coord[j][i].x;
 	if (df->t_map->coord[j][i].y > df->t_map->max_y)
@@ -134,6 +111,9 @@ static void	update_minmax(t_df *df, int j, int i)
 		df->t_map->min_x = df->t_map->coord[j][i].x;
 	if (df->t_map->coord[j][i].y < df->t_map->min_y)
 		df->t_map->min_y = df->t_map->coord[j][i].y;
+	// printf("after\n");
+	// printf("min x: %f min y: %f max x: %f max y: %f \n", df->t_map->min_x, df->t_map->min_y, df->t_map->max_x, df->t_map->max_y);
+	// printf("\n");
 }
 
 static void	ft_fill_tmap(t_df *df, char *line, int j)
@@ -141,14 +121,13 @@ static void	ft_fill_tmap(t_df *df, char *line, int j)
 	char	**split;
 	int		i;
 	char	**split2;
-	
+
 	split = ft_split(line, ' ');
 	i = -1;
 	while (++i < df->width)
 	{
 		df->t_map->coord[j][i].x = (double)i;
 		df->t_map->coord[j][i].y = (double)j;
-		update_minmax(df, j, i);
 		if (ft_strchr(split[i], ','))
 		{
 			split2 = ft_split(split[i], ',');
@@ -157,6 +136,9 @@ static void	ft_fill_tmap(t_df *df, char *line, int j)
 		}
 		else
 			df->t_map->coord[j][i].z = (double)ft_atoi(split[i]);
+		printf("x: %f y: %f z: %f \n", df->t_map->coord[j][i].x, df->t_map->coord[j][i].y, df->t_map->coord[j][i].z);
+		transform_point(&df->t_map->coord[j][i], 0, df);
+		update_minmax(df, j, i);
 	}
 	ft_free_strarr(split);
 }
@@ -173,11 +155,11 @@ void	parse_df(t_df *df, char *file)
 	df->height = get_height(file);
 	df->width = get_width(file);
 	df->t_map->coord = init_coord(df->width, df->height);
-	df->map = malloc_map(df);
+	// df->map = malloc_map(df);
 	i = 0;
 	while (ft_next_line(fd, &line) > 0)
 	{
-		ft_fill_map(df, line, i);
+		// ft_fill_map(df, line, i);
 		ft_fill_tmap(df, line, i);
 		i++;
 	}

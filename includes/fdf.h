@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/18 20:14:03 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/18 22:24:08 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ init.c
 t_prog	*init_prog(void);
 t_df	*init_df(void);
 void	map_init(t_df *df);
+t_point	**init_coord(int width, int height);
 
 /*
 next_line.c
@@ -101,13 +102,14 @@ void	ft_free_strarr(char **str);
 int		find_max(int num1, int num2);
 int		find_min(int num1, int num2);
 int		find_mod(int num);
+double	find_dmin(double num1, double num2);
 
 /*
 draw.c
 */
 int		fade(int z);
 void	transform_point(t_point *p1, t_point *p2, t_df *df);
-void	draw_line(t_prog *app, t_point p1, t_point p2);
+void	draw_line(t_prog *app, t_point *p1, t_point *p2);
 void	draw_loop(t_prog *app, t_df *df);
 
 #endif

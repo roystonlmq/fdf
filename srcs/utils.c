@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 11:24:26 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/17 21:49:24 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/18 22:18:38 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ int	find_min(int num1, int num2)
 		return (num2);
 }
 
+double	find_dmin(double num1, double num2)
+{
+	if (num1 < num2)
+		return (num1);
+	else
+		return (-num2);
+}
 int	find_mod(int num)
 {
 	if (0 > num)
