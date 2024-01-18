@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/17 21:49:40 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/18 20:14:03 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ init.c
 */
 t_prog	*init_prog(void);
 t_df	*init_df(void);
+void	map_init(t_df *df);
 
 /*
 next_line.c
