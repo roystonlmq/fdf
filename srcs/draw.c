@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:54:51 by decortejohn       #+#    #+#             */
-/*   Updated: 2024/01/18 22:39:11 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 01:12:47 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,23 @@ void	transform_point(t_point *p1, t_point *p2, t_df *df)
 	int		previous_x2;
 	int		previous_y2;
 
+	// printf("min x is currently %d \n", find_mod(df->t_map->min_x));
+	// printf("min y is currently %d \n", find_mod(df->t_map->min_y));
 	if (p1)
 	{
 		previous_x1 = p1->x;
 		previous_y1 = p1->y;
-		p1->x = (previous_x1 - previous_y1) * cos(0.523599) + find_mod(df->t_map->min_x);
-		p1->y = -p1->z + (previous_x1 + previous_y1) * sin(0.523599) + find_mod(df->t_map->min_y);
+		p1->x = (previous_x1 - previous_y1) * cos(0.523599);// + find_mod(df->t_map->min_x); // seems to mess the drawing up
+		p1->y = -p1->z + (previous_x1 + previous_y1) * sin(0.523599);// + find_mod(df->t_map->min_y); // seems to mess the drawing up
 		// printf("p1: %f %f \n", p1->x, p1->y);
 	}
 	if (p2)
 	{
 		previous_x2 = p2->x;
 		previous_y2 = p2->y;
-		p2->x = (previous_x2 - previous_y2) * cos(0.523599) + find_mod(df->t_map->min_x);
+		p2->x = (previous_x2 - previous_y2) * cos(0.523599);// + find_mod(df->t_map->min_x);
 		// printf("p2: %f %f \n", p2->x, p2->y);
-		p2->y = -p2->z + (previous_x2 + previous_y2) * sin(0.523599) + find_mod(df->t_map->min_y);
+		p2->y = -p2->z + (previous_x2 + previous_y2) * sin(0.523599);// + find_mod(df->t_map->min_y);
 	}
 	// printf("%f %f \n ", p1->x, p1->y);
 }
@@ -90,16 +92,23 @@ void	draw_line(t_prog *app, t_point *p1, t_point *p2)
 	int		pixels;
 	double	pixelX;
 	double	pixelY;
+	t_df 	*df;
 	
-	// transform_point(&p1, &p2, app->df);
+	df = app->df;
+	// transform_point(p1, p2, app->df); // comment out if using tmap
 	deltaX = p2->x - p1->x;
 	deltaY = p2->y - p1->y;
+	// printf("%f %f \n ", deltaX, deltaY);
 	pixels = sqrt(deltaX * deltaX + deltaY * deltaY);
 	deltaX /= pixels;
 	deltaY /= pixels;
-	pixelX = p1->x;
+	pixelX = p1->x;// + find_mod(df->t_map->min_x);
 	pixelY = p1->y;
-	// printf("%f %f \n ", pixelX, pixelY);
+	if (pixelY > df->t_map->max_y || pixelX > df->t_map->max_x)
+		printf("pixelX: %f pixelY: %f \n", pixelX, pixelY);
+	// checks
+	// if (pixelX > WIN_WIDTH || pixelY > WIN_HEIGHT || pixelX < 0 || pixelY < 0)
+	// 	printf("pixelX: %f pixelY: %f \n", pixelX, pixelY);
 	while (pixels)
 	{
 		ft_put_pixel(app, pixelX, pixelY, fade(find_max(p1->z, p2->z)));
@@ -112,36 +121,40 @@ void	draw_line(t_prog *app, t_point *p1, t_point *p2)
 // Old draw_loop that uses old map
 // void	draw_loop(t_prog *app, t_df *df)
 // {
-// 	t_point	p1;
-// 	t_point	p2;
+// 	t_point	*p1;
+// 	t_point	*p2;
 
+// 	p1 = (t_point *)malloc(sizeof(t_point));
+// 	p2 = (t_point *)malloc(sizeof(t_point));
 // 	df->y = 0;
 // 	while (df->y < df->height)
 // 	{
 // 		df->x = 0;
 // 		while (df->x < df->width)
 // 		{
-// 			p1.x = df->x * df->zoom + df->h_move;
-// 			p1.y = df->y * df->zoom + df->v_move;
-// 			p1.z = df->map[df->y][df->x] * df->h_view;
+// 			p1->x = df->x * df->zoom + df->h_move;
+// 			p1->y = df->y * df->zoom + df->v_move;
+// 			p1->z = df->map[df->y][df->x] * df->h_view;
 // 			if (df->x < df->width - 1)
 // 			{
-// 				p2.x = (df->x + 1) * df->zoom + df->h_move;
-// 				p2.y = df->y * df->zoom + df->v_move;
-// 				p2.z = df->map[df->y][df->x + 1] * df->h_view;
+// 				p2->x = (df->x + 1) * df->zoom + df->h_move;
+// 				p2->y = df->y * df->zoom + df->v_move;
+// 				p2->z = df->map[df->y][df->x + 1] * df->h_view;
 // 				draw_line(app, p1, p2);
 // 			}
 // 			if (df->y < df->height - 1)
 // 			{
-// 				p2.x = df->x * df->zoom + df->h_move;
-// 				p2.y = (df->y + 1) * df->zoom + df->v_move;
-// 				p2.z = df->map[df->y + 1][df->x] * df->h_view;
+// 				p2->x = df->x * df->zoom + df->h_move;
+// 				p2->y = (df->y + 1) * df->zoom + df->v_move;
+// 				p2->z = df->map[df->y + 1][df->x] * df->h_view;
 // 				draw_line(app, p1, p2);
 // 			}
 // 			df->x++;
 // 		}
 // 		df->y++;
 // 	}
+// 	free(p1);
+// 	free(p2);
 // }
 
 void	draw_loop(t_prog *app, t_df *df)
@@ -163,7 +176,10 @@ void	draw_loop(t_prog *app, t_df *df)
 			p1->x = df->t_map->coord[df->y][df->x].x * df->zoom + find_mod(df->t_map->min_x);
 			p1->y = df->t_map->coord[df->y][df->x].y * df->zoom + find_mod(df->t_map->min_y);
 			p1->z = df->t_map->coord[df->y][df->x].z * df->h_view;
-			// printf("p1: %f %f %f \n", p1->x, p1->y, p1->z);
+			// if (p1->x < 0)
+			// {
+			// 	printf("found x < 0, x: %f, zoom: %f, min_x: %d \n", p1->x, df->zoom, find_mod(df->t_map->min_x));
+			// }
 			if (df->x < df->width - 1)
 			{
 				p2->x = df->t_map->coord[df->y][df->x + 1].x * df->zoom + find_mod(df->t_map->min_x);

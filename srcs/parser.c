@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/18 22:36:49 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 01:08:16 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ static void	update_minmax(t_df *df, int j, int i)
 	// printf("x: %f y: %f \n", df->t_map->coord[j][i].x, df->t_map->coord[j][i].y);
 	// printf("current\n");
 	// printf("min x: %f min y: %f max x: %f max y: %f \n", df->t_map->min_x, df->t_map->min_y, df->t_map->max_x, df->t_map->max_y);
+	// if (df->t_map->coord[j][i].x < 0)
+		// printf("found x < 0, x is %f \n", df->t_map->coord[j][i].x);
 	if (df->t_map->coord[j][i].x > df->t_map->max_x)
 		df->t_map->max_x = df->t_map->coord[j][i].x;
 	if (df->t_map->coord[j][i].y > df->t_map->max_y)
@@ -116,31 +118,62 @@ static void	update_minmax(t_df *df, int j, int i)
 	// printf("\n");
 }
 
-static void	ft_fill_tmap(t_df *df, char *line, int j)
+static void	ft_fill_tmap(t_df *df, char *line, int y)
 {
 	char	**split;
-	int		i;
+	int		x;
 	char	**split2;
 
 	split = ft_split(line, ' ');
-	i = -1;
-	while (++i < df->width)
+	x = -1;
+	while (++x < df->width)
 	{
-		df->t_map->coord[j][i].x = (double)i;
-		df->t_map->coord[j][i].y = (double)j;
-		if (ft_strchr(split[i], ','))
+		df->t_map->coord[y][x].x = (double)x;
+		if (df->t_map->coord[y][x].x < 0)
+			printf("while filling tmap, i found x < 0, x is %f \n", df->t_map->coord[y][x].x);
+		df->t_map->coord[y][x].y = (double)y;
+		if (ft_strchr(split[x], ','))
 		{
-			split2 = ft_split(split[i], ',');
-			df->t_map->coord[j][i].z = (double)ft_atoi(split2[0]);
+			split2 = ft_split(split[x], ',');
+			df->t_map->coord[y][x].z = (double)ft_atoi(split2[0]);
 			ft_free_strarr(split2);
 		}
 		else
-			df->t_map->coord[j][i].z = (double)ft_atoi(split[i]);
-		printf("x: %f y: %f z: %f \n", df->t_map->coord[j][i].x, df->t_map->coord[j][i].y, df->t_map->coord[j][i].z);
-		transform_point(&df->t_map->coord[j][i], 0, df);
-		update_minmax(df, j, i);
+			df->t_map->coord[y][x].z = (double)ft_atoi(split[x]);
+		// printf("x: %f y: %f z: %f \n", df->t_map->coord[j][i].x, df->t_map->coord[j][i].y, df->t_map->coord[j][i].z);
+		//transform_point(&df->t_map->coord[y][x], 0, df); // doesn't make sense to 
+		// transform here cos minmax is still  being updated resulting in inconsistent max and min vals
+		// update_minmax(df, y, x);
 	}
 	ft_free_strarr(split);
+}
+
+static void	ft_transform_map(t_df *df)
+{
+	int	y;
+	int	x;
+	
+	y = -1;
+	while (++y < df->height)
+	{
+		x = -1;
+		while (++x < df->width)
+		{
+			transform_point(&df->t_map->coord[y][x], 0, df);
+			update_minmax(df, y, x);
+			// printf("x: %f y: %f z: %f \n", df->t_map->coord[y][x].x, df->t_map->coord[y][x].y, df->t_map->coord[y][x].z);
+		}
+	}			
+}
+
+static void	ft_update_minmax_with_zoom(t_df *df)
+{
+	df->zoom = find_min(WIN_WIDTH / (df->t_map->max_x / 2),
+	(WIN_HEIGHT / df->t_map->max_y / 2));
+	df->t_map->max_x *= df->zoom;
+	df->t_map->max_y *= df->zoom;
+	df->t_map->min_x *= df->zoom;
+	df->t_map->min_y *= df->zoom;
 }
 
 void	parse_df(t_df *df, char *file)
@@ -163,6 +196,7 @@ void	parse_df(t_df *df, char *file)
 		ft_fill_tmap(df, line, i);
 		i++;
 	}
-	// ft_transform_map(df);
+	ft_transform_map(df);
+	ft_update_minmax_with_zoom(df);
 	close(fd);
 }

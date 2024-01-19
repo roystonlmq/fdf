@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/18 22:24:08 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 00:00:55 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct	s_df
 	double	v_move;
 	int		**map;
 	t_map	*t_map;
-	t_point	*offset;
 }	t_df;
 
 typedef struct	s_prog

@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/18 20:28:54 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 01:18:55 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ t_prog	*init_prog(void)
 	if (!app->mlx)
 		exception(1, "Failed to initialise MLX");
 	mlx_get_screen_size(app->mlx, &app->width, &app->height);
+	// force 1080p for testing with dual monitor
+	app->width = 1920;
+	app->height = 1080;
 	app->win = mlx_new_window(app->mlx, app->width, app->height, TITLE);
 	if (!app->win)
 		exception(1, "Failed to create new window");
@@ -87,6 +90,10 @@ t_df	*init_df(void)
 	df->map = NULL;
 	df->width = 0;
 	df->height = 0;
+	prog->df->h_view = 10;
+	prog->df->h_move = WIN_WIDTH / 2;
+	prog->df->v_move = WIN_HEIGHT / 2;
+	prog->df->zoom = 1;
 	map_init(df);
 	return (df);
 }
