@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 01:18:55 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 01:19:59 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ t_df	*init_df(void)
 	df->map = NULL;
 	df->width = 0;
 	df->height = 0;
-	prog->df->h_view = 10;
-	prog->df->h_move = WIN_WIDTH / 2;
-	prog->df->v_move = WIN_HEIGHT / 2;
-	prog->df->zoom = 1;
+	df->h_view = 10;
+	df->h_move = WIN_WIDTH / 2;
+	df->v_move = WIN_HEIGHT / 2;
+	df->zoom = 1;
 	map_init(df);
 	return (df);
 }
