@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/20 00:00:55 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 01:27:39 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-# define TITLE "FdF"
+# define TITLE "fdf"
 
 typedef struct s_point
 {
