@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 01:19:59 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 01:27:08 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_prog	*init_prog(void)
 	// force 1080p for testing with dual monitor
 	app->width = 1920;
 	app->height = 1080;
-	app->win = mlx_new_window(app->mlx, app->width, app->height, TITLE);
-	if (!app->win)
-		exception(1, "Failed to create new window");
+	// app->win = mlx_new_window(app->mlx, app->width, app->height, TITLE);
+	// if (!app->win)
+	// 	exception(1, "Failed to create new window");
 	app->img = mlx_new_image(app->mlx, app->width, app->height);
 	if (!app->img)
 		exception(1, "Failed to create new image");
