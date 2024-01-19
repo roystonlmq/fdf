@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 01:08:16 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 01:20:42 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,10 @@ static void	ft_update_minmax_with_zoom(t_df *df)
 {
 	df->zoom = find_min(WIN_WIDTH / (df->t_map->max_x / 2),
 	(WIN_HEIGHT / df->t_map->max_y / 2));
+	if (df->zoom < 4)
+		df->zoom = 2;
+	else
+		df->zoom /= 2;
 	df->t_map->max_x *= df->zoom;
 	df->t_map->max_y *= df->zoom;
 	df->t_map->min_x *= df->zoom;
