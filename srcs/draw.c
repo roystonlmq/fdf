@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 16:54:51 by decortejohn       #+#    #+#             */
-/*   Updated: 2024/01/20 01:12:47 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 15:38:09 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ void	draw_line(t_prog *app, t_point *p1, t_point *p2)
 	deltaY /= pixels;
 	pixelX = p1->x;// + find_mod(df->t_map->min_x);
 	pixelY = p1->y;
-	if (pixelY > df->t_map->max_y || pixelX > df->t_map->max_x)
-		printf("pixelX: %f pixelY: %f \n", pixelX, pixelY);
+	// if (pixelY > df->t_map->max_y || pixelX > df->t_map->max_x)
+	// 	printf("pixelX: %f pixelY: %f \n", pixelX, pixelY);
 	// checks
 	// if (pixelX > WIN_WIDTH || pixelY > WIN_HEIGHT || pixelX < 0 || pixelY < 0)
 	// 	printf("pixelX: %f pixelY: %f \n", pixelX, pixelY);
