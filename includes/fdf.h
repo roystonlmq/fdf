@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/20 17:49:27 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 18:07:33 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define TITLE "fdf"
 
 # define ESC 53
+
 typedef struct s_point
 {
 	double	x;
@@ -36,36 +37,36 @@ typedef struct s_point
 	int		color;
 }	t_point;
 
-typedef struct	s_map
+typedef struct s_map
 {
-	t_point **coord;
+	t_point	**coord;
 	double	max_x;
 	double	max_y;
 	double	min_x;
 	double	min_y;
 }	t_map;
 
-typedef struct	s_df
+typedef struct s_df
 {
-	int		x;
-	int		y;
-	int		width;
-	int		height;
 	double	zoom;
 	double	h_view;
 	double	h_move;
 	double	v_move;
 	t_map	*t_map;
-}	t_df;
-
-typedef struct	s_prog
-{
+	int		x;
+	int		y;
 	int		width;
 	int		height;
+}	t_df;
+
+typedef struct s_prog
+{
 	void	*mlx;
 	void	*win;
 	void	*img;
 	char	*data;
+	int		width;
+	int		height;
 	int		bpp;
 	int		length;
 	int		endian;
@@ -73,7 +74,7 @@ typedef struct	s_prog
 }	t_prog;
 
 /*
-error.c 
+error.c
 */
 void	exception(int errnum, const char *msg);
 
@@ -89,8 +90,8 @@ void	init_mlx(t_prog *prog);
 /*
 next_line.c
 */
-int	ft_next_line(int fd, char **line);
-int	ft_splitlen(char **split);
+int		ft_next_line(int fd, char **line);
+int		ft_splitlen(char **split);
 
 /*
 parser.c
@@ -124,6 +125,5 @@ keys.c
 */
 int		key_hook(int keycode, t_prog *prog);
 int		ft_close_win(t_prog *prog);
-
 
 #endif
