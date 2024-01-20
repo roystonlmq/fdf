@@ -6,7 +6,7 @@
 #    By: roylee <roylee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/01 16:22:42 by sgoffaux          #+#    #+#              #
-#    Updated: 2024/01/17 21:57:29 by roylee           ###   ########.fr        #
+#    Updated: 2024/01/20 14:58:59 by roylee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ INCLUDE 	=	includes
 CFLAGS		=	-Wall -Wextra -I$(INCLUDE) -g
 RM			=	rm -f
 SRCS		=	main.c srcs/error.c srcs/init.c srcs/next_line.c srcs/parser.c \
-				srcs/utils.c srcs/draw.c
+				srcs/utils.c srcs/draw.c srcs/keys.c
 				
 
 OBJS		=	$(SRCS:%.c=%.o)
