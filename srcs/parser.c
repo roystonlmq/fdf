@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 01:33:07 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 16:27:52 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@ static int	get_width(char *file)
 	{
 		split = ft_split(line, ' ');
 		width = ft_splitlen(split);
-		free(line);
 	}
+	free(line);
+	while (ft_next_line(fd, &line) > 0)
+		free(line);
 	if (close(fd) < 0)
 		exception(1, "Failed to close file");
+	ft_free_strarr(split);	
 	return (width);
 }
 
@@ -65,37 +68,6 @@ static int	**malloc_map(t_df *df)
 	while (i++ < df->height)
 		map[i] = (int *)malloc(sizeof(int) * df->width);
 	return (map);
-}
-
-
-
-
-/*
-ft_fill_map will first split the line with ' ' and then
-check if the split str contains ',', if it does, it will
-split the str again with ',' and then convert the str to
-int and store it in the map.
-*/
-static void	ft_fill_map(t_df *df, char *line, int i)
-{
-	char	**split;
-	int		j;
-	char	**split2;
-	
-	split = ft_split(line, ' ');
-	j = -1;
-	while (++j < df->width)
-	{
-		if (ft_strchr(split[j], ','))
-		{
-			split2 = ft_split(split[j], ',');
-			df->map[i][j] = ft_atoi(split2[0]);
-			ft_free_strarr(split2);
-		}
-		else
-			df->map[i][j] = ft_atoi(split[j]);
-	}
-	ft_free_strarr(split);
 }
 
 static void	update_minmax(t_df *df, int j, int i)
@@ -192,12 +164,11 @@ void	parse_df(t_df *df, char *file)
 	df->height = get_height(file);
 	df->width = get_width(file);
 	df->t_map->coord = init_coord(df->width, df->height);
-	// df->map = malloc_map(df);
 	i = 0;
 	while (ft_next_line(fd, &line) > 0)
 	{
-		// ft_fill_map(df, line, i);
 		ft_fill_tmap(df, line, i);
+		free(line);
 		i++;
 	}
 	ft_transform_map(df);
