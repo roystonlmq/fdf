@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 19:26:31 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/10 20:54:08 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 18:08:08 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
 # endif
-
 
 # include <fcntl.h>
 # include <stdlib.h>
