@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:03:39 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:49:19 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 23:55:40 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 	t_prog	*prog;
 
 	if (argc != 2)
-		exception(1, "Not enough arguments");
+		exception(5, "Usage: ./fdf <filename>");
 	prog = init_prog();
 	prog->df = init_df();
 	parse_df(prog, argv[1]);
