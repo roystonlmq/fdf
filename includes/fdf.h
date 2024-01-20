@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/20 01:27:39 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 16:42:02 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 # include <math.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <X11/keysym.h>
+# include <X11/X.h>
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define TITLE "fdf"
 
+# define ESC 53
 typedef struct s_point
 {
 	double	x;
@@ -52,7 +55,6 @@ typedef struct	s_df
 	double	h_view;
 	double	h_move;
 	double	v_move;
-	int		**map;
 	t_map	*t_map;
 }	t_df;
 
@@ -110,5 +112,11 @@ int		fade(int z);
 void	transform_point(t_point *p1, t_point *p2, t_df *df);
 void	draw_line(t_prog *app, t_point *p1, t_point *p2);
 void	draw_loop(t_prog *app, t_df *df);
+
+/*
+keys.c
+*/
+void	key_hook(int keycode, t_prog *prog);
+int	ft_close_win(t_prog *prog);
 
 #endif
