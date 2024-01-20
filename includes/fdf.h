@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/20 17:23:35 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:49:27 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_point
 	double	x;
 	double	y;
 	double	z;
-	int		color;	
+	int		color;
 }	t_point;
 
 typedef struct	s_map
@@ -84,6 +84,7 @@ t_prog	*init_prog(void);
 t_df	*init_df(void);
 void	map_init(t_df *df);
 t_point	**init_coord(int width, int height);
+void	init_mlx(t_prog *prog);
 
 /*
 next_line.c
@@ -94,7 +95,7 @@ int	ft_splitlen(char **split);
 /*
 parser.c
 */
-void	parse_df(t_df *df, char *file);
+void	parse_df(t_prog *df, char *file);
 
 /*
 utils.c

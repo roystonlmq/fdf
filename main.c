@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:03:39 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:22:53 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:49:19 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	main(int argc, char **argv)
 		exception(1, "Not enough arguments");
 	prog = init_prog();
 	prog->df = init_df();
-	parse_df(prog->df, argv[1]);
+	parse_df(prog, argv[1]);
+	init_mlx(prog);
 	draw_loop(prog, prog->df);
 	minx = prog->df->t_map->min_x;
 	miny = prog->df->t_map->min_y;

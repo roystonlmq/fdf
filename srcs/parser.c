@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:16:17 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:52:00 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	ft_update_minmax_with_zoom(t_df *df)
 	df->t_map->min_y *= df->zoom;
 }
 
-void	parse_df(t_df *df, char *file)
+void	parse_df(t_prog *prog, char *file)
 {
 	int		fd;
 	char	*line;
@@ -103,18 +103,23 @@ void	parse_df(t_df *df, char *file)
 
 	fd = open(file, O_RDONLY, 0777);
 	if (fd < 0)
+	{
+		free(prog->df->t_map);
+		free(prog->df);
+		free(prog);
 		exception(1, "Failed to open file");
-	df->height = get_height(file);
-	df->width = get_width(file);
-	df->t_map->coord = init_coord(df->width, df->height);
+	}
+	prog->df->height = get_height(file);
+	prog->df->width = get_width(file);
+	prog->df->t_map->coord = init_coord(prog->df->width, prog->df->height);
 	i = 0;
 	while (ft_next_line(fd, &line) > 0)
 	{
-		ft_fill_tmap(df, line, i);
+		ft_fill_tmap(prog->df, line, i);
 		free(line);
 		i++;
 	}
-	ft_transform_map(df);
-	ft_update_minmax_with_zoom(df);
+	ft_transform_map(prog->df);
+	ft_update_minmax_with_zoom(prog->df);
 	close(fd);
 }

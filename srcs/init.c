@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:08:19 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:45:56 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ t_prog	*init_prog(void)
 	app = (t_prog *)malloc(sizeof(t_prog));
 	if (!app)
 		exception(1, "Failed to allocate memory for app");
+	app->df = NULL;
+	return (app);
+}
+
+void	init_mlx(t_prog *app)
+{
 	app->mlx = mlx_init();
 	if (!app->mlx)
 		exception(1, "Failed to initialise MLX");
@@ -30,8 +36,6 @@ t_prog	*init_prog(void)
 			&app->endian);
 	if (!app->data)
 		exception(1, "Failed to get data address");
-	app->df = NULL;
-	return (app);
 }
 
 void	map_init(t_df *df)
