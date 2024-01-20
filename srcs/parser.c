@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 16:27:52 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:16:17 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,41 +53,8 @@ static int	get_width(char *file)
 		free(line);
 	if (close(fd) < 0)
 		exception(1, "Failed to close file");
-	ft_free_strarr(split);	
+	ft_free_strarr(split);
 	return (width);
-}
-
-
-static int	**malloc_map(t_df *df)
-{
-	int		**map;
-	int		i;
-
-	map = (int **)malloc(sizeof(int *) * df->height);
-	i = -1;
-	while (i++ < df->height)
-		map[i] = (int *)malloc(sizeof(int) * df->width);
-	return (map);
-}
-
-static void	update_minmax(t_df *df, int j, int i)
-{
-	// printf("x: %f y: %f \n", df->t_map->coord[j][i].x, df->t_map->coord[j][i].y);
-	// printf("current\n");
-	// printf("min x: %f min y: %f max x: %f max y: %f \n", df->t_map->min_x, df->t_map->min_y, df->t_map->max_x, df->t_map->max_y);
-	// if (df->t_map->coord[j][i].x < 0)
-		// printf("found x < 0, x is %f \n", df->t_map->coord[j][i].x);
-	if (df->t_map->coord[j][i].x > df->t_map->max_x)
-		df->t_map->max_x = df->t_map->coord[j][i].x;
-	if (df->t_map->coord[j][i].y > df->t_map->max_y)
-		df->t_map->max_y = df->t_map->coord[j][i].y;
-	if (df->t_map->coord[j][i].x < df->t_map->min_x)
-		df->t_map->min_x = df->t_map->coord[j][i].x;
-	if (df->t_map->coord[j][i].y < df->t_map->min_y)
-		df->t_map->min_y = df->t_map->coord[j][i].y;
-	// printf("after\n");
-	// printf("min x: %f min y: %f max x: %f max y: %f \n", df->t_map->min_x, df->t_map->min_y, df->t_map->max_x, df->t_map->max_y);
-	// printf("\n");
 }
 
 static void	ft_fill_tmap(t_df *df, char *line, int y)
@@ -101,8 +68,6 @@ static void	ft_fill_tmap(t_df *df, char *line, int y)
 	while (++x < df->width)
 	{
 		df->t_map->coord[y][x].x = (double)x;
-		if (df->t_map->coord[y][x].x < 0)
-			printf("while filling tmap, i found x < 0, x is %f \n", df->t_map->coord[y][x].x);
 		df->t_map->coord[y][x].y = (double)y;
 		if (ft_strchr(split[x], ','))
 		{
@@ -112,36 +77,14 @@ static void	ft_fill_tmap(t_df *df, char *line, int y)
 		}
 		else
 			df->t_map->coord[y][x].z = (double)ft_atoi(split[x]);
-		// printf("x: %f y: %f z: %f \n", df->t_map->coord[j][i].x, df->t_map->coord[j][i].y, df->t_map->coord[j][i].z);
-		//transform_point(&df->t_map->coord[y][x], 0, df); // doesn't make sense to 
-		// transform here cos minmax is still  being updated resulting in inconsistent max and min vals
-		// update_minmax(df, y, x);
 	}
 	ft_free_strarr(split);
-}
-
-static void	ft_transform_map(t_df *df)
-{
-	int	y;
-	int	x;
-	
-	y = -1;
-	while (++y < df->height)
-	{
-		x = -1;
-		while (++x < df->width)
-		{
-			transform_point(&df->t_map->coord[y][x], 0, df);
-			update_minmax(df, y, x);
-			// printf("x: %f y: %f z: %f \n", df->t_map->coord[y][x].x, df->t_map->coord[y][x].y, df->t_map->coord[y][x].z);
-		}
-	}			
 }
 
 static void	ft_update_minmax_with_zoom(t_df *df)
 {
 	df->zoom = find_min(WIN_WIDTH / (df->t_map->max_x / 2),
-	(WIN_HEIGHT / df->t_map->max_y / 2));
+			(WIN_HEIGHT / df->t_map->max_y / 2));
 	if (df->zoom < 4)
 		df->zoom = 2;
 	else
