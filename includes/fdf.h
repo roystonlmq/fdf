@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/20 18:07:33 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 23:54:03 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_prog
 error.c
 */
 void	exception(int errnum, const char *msg);
+int		check_fdf(t_prog *prog, char *file);
 
 /*
 init.c
@@ -109,7 +110,8 @@ int		find_mod(int num);
 /*
 project.c
 */
-void	transform_point(t_point *p1, t_point *p2);
+void	transform_point(t_point *p1, t_point *p2);\
+void	ft_update_minmax_with_zoom(t_df *df);
 void	ft_transform_map(t_df *df);
 
 /*
