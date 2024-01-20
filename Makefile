@@ -6,7 +6,7 @@
 #    By: roylee <roylee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/01 16:22:42 by sgoffaux          #+#    #+#              #
-#    Updated: 2024/01/20 17:21:17 by roylee           ###   ########.fr        #
+#    Updated: 2024/01/20 23:58:09 by roylee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,6 @@ $(GNL_A):
 $(MLX_A):
 				@$(MAKE) -s -C $(MLX)
 				@echo "Compiled $(MLX_A)."
-
-bonus:			all
 
 %.c: %.o
 				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
