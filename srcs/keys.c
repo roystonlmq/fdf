@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 15:07:47 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:23:55 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 23:27:00 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	free_coord(t_df *df)
 	int	i;
 
 	i = -1;
-	printf("%d \n", df->height);
 	while (++i < df->height)
 		free(df->t_map->coord[i]);
 	free(df->t_map->coord);
