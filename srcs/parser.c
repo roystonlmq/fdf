@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 21:37:59 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:52:00 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 23:54:24 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,34 +81,13 @@ static void	ft_fill_tmap(t_df *df, char *line, int y)
 	ft_free_strarr(split);
 }
 
-static void	ft_update_minmax_with_zoom(t_df *df)
-{
-	df->zoom = find_min(WIN_WIDTH / (df->t_map->max_x / 2),
-			(WIN_HEIGHT / df->t_map->max_y / 2));
-	if (df->zoom < 4)
-		df->zoom = 2;
-	else
-		df->zoom /= 2;
-	df->t_map->max_x *= df->zoom;
-	df->t_map->max_y *= df->zoom;
-	df->t_map->min_x *= df->zoom;
-	df->t_map->min_y *= df->zoom;
-}
-
 void	parse_df(t_prog *prog, char *file)
 {
 	int		fd;
 	char	*line;
 	int		i;
 
-	fd = open(file, O_RDONLY, 0777);
-	if (fd < 0)
-	{
-		free(prog->df->t_map);
-		free(prog->df);
-		free(prog);
-		exception(1, "Failed to open file");
-	}
+	fd = check_fdf(prog, file);
 	prog->df->height = get_height(file);
 	prog->df->width = get_width(file);
 	prog->df->t_map->coord = init_coord(prog->df->width, prog->df->height);
