@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 01:27:08 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 15:27:45 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_df	*init_df(void)
 	df = (t_df *)malloc(sizeof(t_df));
 	if (!df)
 		exception(1, "Failed to allocate memory for df");
-	df->map = NULL;
+	df->t_map = NULL;
 	df->width = 0;
 	df->height = 0;
 	df->h_view = 10;
