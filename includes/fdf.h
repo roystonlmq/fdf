@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:10:10 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/20 17:15:22 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:23:35 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	draw_loop(t_prog *app, t_df *df);
 /*
 keys.c
 */
-void	key_hook(int keycode, t_prog *prog);
+int		key_hook(int keycode, t_prog *prog);
 int		ft_close_win(t_prog *prog);
 
 

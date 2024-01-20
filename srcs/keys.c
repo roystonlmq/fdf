@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 15:07:47 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 16:56:11 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:23:55 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ int	ft_close_win(t_prog *prog)
 	exit(0);
 }
 
-void	key_hook(int keycode, t_prog *prog)
+int	key_hook(int keycode, t_prog *prog)
 {
 	if (keycode == XK_Escape)
 		ft_close_win(prog);
+	return (0);
 }
