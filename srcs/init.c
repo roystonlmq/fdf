@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:45:56 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 23:59:39 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_mlx(t_prog *app)
 	app->img = mlx_new_image(app->mlx, app->width, app->height);
 	if (!app->img)
 		exception(1, "Failed to create new image");
-	app->data = mlx_get_data_addr(app->img, &app->bpp, &app->length, 
+	app->data = mlx_get_data_addr(app->img, &app->bpp, &app->length,
 			&app->endian);
 	if (!app->data)
 		exception(1, "Failed to get data address");

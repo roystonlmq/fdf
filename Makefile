@@ -6,7 +6,7 @@
 #    By: roylee <roylee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/01 16:22:42 by sgoffaux          #+#    #+#              #
-#    Updated: 2024/01/20 23:58:09 by roylee           ###   ########.fr        #
+#    Updated: 2024/01/21 00:23:00 by roylee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,16 @@ SRCS		=	main.c srcs/error.c srcs/init.c srcs/next_line.c srcs/parser.c \
 
 OBJS		=	$(SRCS:%.c=%.o)
 
-all:			$(NAME)
-
+all:			$(NAME) 
+				
 $(NAME):		$(OBJS) $(LIBFT_A) $(GNL_A) $(MLX_A)
-				@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft -L$(GNL) -lgnl -L$(MLX) -lmlx -lm -lXext -lX11 -o $(NAME) 
+				@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft -L$(GNL) -lgnl -L$(MLX) -lmlx -lm -lXext -lX11 -o $(NAME)
 				@echo "Linked into executable \033[0;32mfdf\033[0m."
 
+%.o:			%.c
+				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+				@echo "Compiling $<."
+				
 $(LIBFT_A):
 				@$(MAKE) -s -C $(LIBFT)
 				@echo "Compiled $(LIBFT_A)."
@@ -45,10 +49,6 @@ $(GNL_A):
 $(MLX_A):
 				@$(MAKE) -s -C $(MLX)
 				@echo "Compiled $(MLX_A)."
-
-%.c: %.o
-				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
-				@echo "Compiling $<."
 
 localclean:
 				@$(RM) $(OBJS)
