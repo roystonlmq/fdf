@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 17:04:05 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 17:15:49 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 23:53:43 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ static void	update_minmax(t_df *df, int j, int i)
 		df->t_map->min_x = df->t_map->coord[j][i].x;
 	if (df->t_map->coord[j][i].y < df->t_map->min_y)
 		df->t_map->min_y = df->t_map->coord[j][i].y;
+}
+
+void	ft_update_minmax_with_zoom(t_df *df)
+{
+	df->zoom = find_min(WIN_WIDTH / (df->t_map->max_x / 2),
+			(WIN_HEIGHT / df->t_map->max_y / 2));
+	if (df->zoom < 4)
+		df->zoom = 2;
+	else
+		df->zoom /= 2;
+	df->t_map->max_x *= df->zoom;
+	df->t_map->max_y *= df->zoom;
+	df->t_map->min_x *= df->zoom;
+	df->t_map->min_y *= df->zoom;
 }
 
 void	ft_transform_map(t_df *df)
