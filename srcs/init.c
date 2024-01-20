@@ -6,7 +6,7 @@
 /*   By: roylee <roylee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:43:30 by roylee            #+#    #+#             */
-/*   Updated: 2024/01/20 15:27:45 by roylee           ###   ########.fr       */
+/*   Updated: 2024/01/20 17:08:19 by roylee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,11 @@ t_prog	*init_prog(void)
 	if (!app->mlx)
 		exception(1, "Failed to initialise MLX");
 	mlx_get_screen_size(app->mlx, &app->width, &app->height);
-	// force 1080p for testing with dual monitor
-	app->width = 1920;
-	app->height = 1080;
-	// app->win = mlx_new_window(app->mlx, app->width, app->height, TITLE);
-	// if (!app->win)
-	// 	exception(1, "Failed to create new window");
 	app->img = mlx_new_image(app->mlx, app->width, app->height);
 	if (!app->img)
 		exception(1, "Failed to create new image");
 	app->data = mlx_get_data_addr(app->img, &app->bpp, &app->length, 
-					&app->endian);
+			&app->endian);
 	if (!app->data)
 		exception(1, "Failed to get data address");
 	app->df = NULL;
@@ -97,4 +91,3 @@ t_df	*init_df(void)
 	map_init(df);
 	return (df);
 }
-
